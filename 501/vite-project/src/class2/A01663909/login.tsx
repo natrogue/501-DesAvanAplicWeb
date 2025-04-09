@@ -2,13 +2,34 @@ import React, { useState } from 'react';
 import InputField from './inputField';
 import Button from './button';
 
-const Login: React.FC = () => {
+// Add props interface to receive setCurrentPage function
+interface LoginProps {
+  setCurrentPage?: React.Dispatch<React.SetStateAction<'home' | 'login' | 'blank' | 'navigation' | 'form'>>;
+}
+
+const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   const handleSubmit = () => {
     console.log('Username:', username);
     console.log('Password:', password);
+    
+    // Simple validation with hardcoded credentials
+    if (username === 'user' && password === 'password') {
+      // Navigate to the form page on successful login
+      if (setCurrentPage) {
+        setCurrentPage('form');
+      } else {
+        // If setCurrentPage is not provided, just log success
+        console.log('Login successful, but navigation not available');
+        alert('Login successful!');
+      }
+    } else {
+      // Show an error message for invalid credentials
+      setError('Invalid username or password');
+    }
   };
 
   return (
@@ -25,6 +46,14 @@ const Login: React.FC = () => {
       }}
     >
       <h1 style={{ color: '#ff6f61', marginBottom: '20px' }}>Login</h1>
+      
+      {/* Display error message if login fails */}
+      {error && (
+        <p style={{ color: 'red', marginBottom: '15px', fontWeight: 'bold' }}>
+          {error}
+        </p>
+      )}
+      
       <InputField
         type="text"
         placeholder="Username"
