@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer } from 'react';
 
 type State = {
   destination: string;
@@ -32,24 +32,6 @@ const reducer = (state: State, action: Action): State => {
 const TravelRequestForm: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // Adding useEffect that doesn't change functionality
-  // This just logs when the form component mounts
-  useEffect(() => {
-    console.log('Travel Request Form mounted');
-    
-    // Optional cleanup function
-    return () => {
-      console.log('Travel Request Form unmounted');
-    };
-  }, []);
-
-  // Log whenever the destination changes
-  useEffect(() => {
-    if (state.destination) {
-      console.log(`Destination updated: ${state.destination}`);
-    }
-  }, [state.destination]);
-
   const handleChange = (field: keyof State, value: string) => {
     dispatch({ type: 'UPDATE_FIELD', field, value });
   };
@@ -59,36 +41,54 @@ const TravelRequestForm: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-4">
-      <h1 className="text-2xl font-semibold">Travel Request Form</h1>
-      <input
-        type="text"
-        placeholder="Destination"
-        value={state.destination}
-        onChange={(e) => handleChange('destination', e.target.value)}
-        className="p-2 border rounded w-64"
-      />
-      <input
-        type="date"
-        value={state.startDate}
-        onChange={(e) => handleChange('startDate', e.target.value)}
-        className="p-2 border rounded w-64"
-      />
-      <input
-        type="date"
-        value={state.endDate}
-        onChange={(e) => handleChange('endDate', e.target.value)}
-        className="p-2 border rounded w-64"
-      />
-      <textarea
-        placeholder="Purpose"
-        value={state.purpose}
-        onChange={(e) => handleChange('purpose', e.target.value)}
-        className="p-2 border rounded w-64"
-      />
-      <button onClick={handleSubmit} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-        Submit
-      </button>
+    <div className="flex flex-col items-center p-6">
+      <h1 className="text-4xl font-semibold mb-8">Travel Request Form</h1>
+      <div className="w-full max-w-md space-y-6">
+        <div className="w-full">
+          <input
+            type="text"
+            placeholder="Destination"
+            value={state.destination}
+            onChange={(e) => handleChange('destination', e.target.value)}
+            className="p-3 border rounded w-full"
+          />
+        </div>
+        <div className="w-full">
+          <input
+            type="date"
+            value={state.startDate}
+            onChange={(e) => handleChange('startDate', e.target.value)}
+            className="p-3 border rounded w-full"
+          />
+        </div>
+        <div className="w-full">
+          <input
+            type="date"
+            value={state.endDate}
+            onChange={(e) => handleChange('endDate', e.target.value)}
+            className="p-3 border rounded w-full"
+          />
+        </div>
+        <div className="w-full">
+          <textarea
+            placeholder="Purpose"
+            value={state.purpose}
+            onChange={(e) => handleChange('purpose', e.target.value)}
+            className="p-3 border rounded w-full h-32"
+            rows={4}
+          />
+        </div>
+        <div className="w-full flex justify-center mt-8">
+          <button 
+            onClick={handleSubmit} 
+            className="bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600 font-medium text-lg"
+          >
+            Submit
+          </button>
+        </div>
+        <div className="w-full flex justify-center mt-4">
+        </div>
+      </div>
     </div>
   );
 };
