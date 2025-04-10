@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 
 type State = {
   destination: string;
@@ -31,6 +31,24 @@ const reducer = (state: State, action: Action): State => {
 
 const TravelRequestForm: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  // Adding useEffect that doesn't change functionality
+  // This just logs when the form component mounts
+  useEffect(() => {
+    console.log('Travel Request Form mounted');
+    
+    // Optional cleanup function
+    return () => {
+      console.log('Travel Request Form unmounted');
+    };
+  }, []);
+
+  // Log whenever the destination changes
+  useEffect(() => {
+    if (state.destination) {
+      console.log(`Destination updated: ${state.destination}`);
+    }
+  }, [state.destination]);
 
   const handleChange = (field: keyof State, value: string) => {
     dispatch({ type: 'UPDATE_FIELD', field, value });

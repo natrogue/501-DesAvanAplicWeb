@@ -4,7 +4,6 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Button from './class2/A01663909/button.tsx'
 import Login from './class2/A01663909/login'
-import BlankPage from './class3/A01663909/class3'
 import Navigation from './Navigation'
 import TravelRequestForm from './class3/A01663909/form'
 
@@ -13,20 +12,18 @@ type Page = 'home' | 'login' | 'blank' | 'navigation' | 'form';
 
 function App() {
   const [count, setCount] = useState(0)
-  // Estado para controlar qué página se muestra
+
   const [currentPage, setCurrentPage] = useState<Page>('home')
 
-  // Renderizar la página correspondiente según el estado
+
   const renderPage = () => {
     switch (currentPage) {
       case 'navigation':
         return <Navigation setCurrentPage={setCurrentPage} />;
       case 'login':
-        return <Login setCurrentPage={setCurrentPage} />; // Pass setCurrentPage to Login
-      case 'blank':
-        return <BlankPage />;
+        return <Login setCurrentPage={setCurrentPage} />;
       case 'form':
-        return <TravelRequestForm />; // Add case for the form component
+        return <TravelRequestForm />;
       default:
         return (
           <>
@@ -51,8 +48,7 @@ function App() {
               Click on the Vite and React logos to learn more
             </p>
             <div style={{ textAlign: 'center', margin: '20px 0' }}>
-              {/* Solo un botón que lleva al componente de navegación */}
-              <Button label="Ir a Navegación" onClick={() => setCurrentPage('navigation')} />
+              <Button label="Natalia Rodriguez" onClick={() => setCurrentPage('navigation')} />
             </div>
           </>
         );
@@ -62,7 +58,6 @@ function App() {
   return (
     <>
       {renderPage()}
-      {/* Agregar botón de regreso si no estamos en la página principal ni en navegación */}
       {currentPage !== 'home' && currentPage !== 'navigation' && (
         <div style={{ textAlign: 'center', marginTop: '20px' }}>
           <Button label="Volver a Navegación" onClick={() => setCurrentPage('navigation')} />
