@@ -112,6 +112,24 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   }, [expenses]);
 
+  // Function to send WebSocket notification
+  const sendWebSocketNotification = (message: string) => {
+    try {
+      const ws = new WebSocket('ws://localhost:8080');
+      
+      ws.onopen = () => {
+        ws.send(message);
+        ws.close();
+      };
+      
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+      };
+    } catch (error) {
+      console.error('Failed to send WebSocket notification:', error);
+    }
+  };
+
   // Function to handle user login
   const login = (role: UserRole, userData?: Partial<User>) => {
     const newUser: User = {
@@ -125,10 +143,16 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     
     // Store user data in localStorage for persistence
     localStorage.setItem('user', JSON.stringify(newUser));
+    
+    // Send WebSocket notification about login
+    sendWebSocketNotification(`User ${newUser.username || 'Unknown'} logged in as ${role}`);
   };
 
   // Function to handle user logout
   const logout = () => {
+    // Send WebSocket notification about logout
+    sendWebSocketNotification(`User ${user.username || 'Unknown'} logged out`);
+    
     setUser({ role: 'employee' });
     setIsAuthenticated(false);
     localStorage.removeItem('user');
@@ -146,6 +170,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
     setTravelRequests(prev => [...prev, newRequest]);
     console.log('Travel Request Submitted:', newRequest);
+    
+    // Send WebSocket notification about new travel request
+    const notificationMessage = `New travel request submitted by ${newRequest.submittedBy} to ${newRequest.destination} from ${newRequest.startDate} to ${newRequest.endDate}`;
+    sendWebSocketNotification(notificationMessage);
   };
 
   // Function to submit an expense
@@ -160,24 +188,42 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
     setExpenses(prev => [...prev, newExpense]);
     console.log('Expense Submitted:', newExpense);
+    
+    // Send WebSocket notification about new expense
+    const notificationMessage = `New expense of $${newExpense.amount} for ${newExpense.category} submitted by ${newExpense.submittedBy}`;
+    sendWebSocketNotification(notificationMessage);
   };
 
   // Function to update travel request status
   const updateTravelRequestStatus = (id: string, status: 'approved' | 'rejected') => {
-    setTravelRequests(prev => 
-      prev.map(req => 
-        req.id === id ? { ...req, status } : req
-      )
-    );
+    const updatedRequests = travelRequests.map(req => {
+      if (req.id === id) {
+        // Send WebSocket notification about status update
+        const notificationMessage = `Travel request to ${req.destination} ${status} by ${user.username || 'Unknown User'}`;
+        sendWebSocketNotification(notificationMessage);
+        
+        return { ...req, status };
+      }
+      return req;
+    });
+    
+    setTravelRequests(updatedRequests);
   };
 
   // Function to update expense status
   const updateExpenseStatus = (id: string, status: 'approved' | 'rejected') => {
-    setExpenses(prev => 
-      prev.map(exp => 
-        exp.id === id ? { ...exp, status } : exp
-      )
-    );
+    const updatedExpenses = expenses.map(exp => {
+      if (exp.id === id) {
+        // Send WebSocket notification about status update
+        const notificationMessage = `Expense of $${exp.amount} for ${exp.category} ${status} by ${user.username || 'Unknown User'}`;
+        sendWebSocketNotification(notificationMessage);
+        
+        return { ...exp, status };
+      }
+      return exp;
+    });
+    
+    setExpenses(updatedExpenses);
   };
 
   // Provide the context value to children components

@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from './class2/A01663909/button';
+import Button from '../../class2/A01663909/button';
 
 // Updated Page type to include all pages
 type Page = 'home' | 'login' | 'blank' | 'navigation' | 'form' | 'expense' | 'dashboard';

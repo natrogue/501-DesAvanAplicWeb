@@ -4,11 +4,11 @@ import viteLogo from '/vite.svg';
 import './App.css';
 import Button from './class2/A01663909/button.tsx';
 import Login from './class2/A01663909/login';
-import Navigation from './Navigation';
+import Navigation from './class3/A01663909/Navigation.tsx';
 import TravelRequestForm from './class3/A01663909/form';
 import ExpenseForm from './class4/A01663909/ExpenseForm.tsx';
 import Dashboard from './class4/A01663909/Dashboard.tsx';
-import { UserProvider } from './class4/A01663909/UserContext';
+import { UserProvider } from './class6/A01663909/UserContext.tsx';
 
 // Updated Page type to include all pages
 type Page = 'home' | 'login' | 'blank' | 'navigation' | 'form' | 'expense' | 'dashboard';

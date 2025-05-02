@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import InputField from './inputField';
 import Button from './button';
-import { useUser } from '../../class4/A01663909/UserContext';
+import { useUser } from '../../class6/A01663909/UserContext';
 
 // Updated Page type to include all pages
 type Page = 'home' | 'login' | 'blank' | 'navigation' | 'form' | 'expense' | 'dashboard';
