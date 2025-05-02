@@ -1,26 +1,46 @@
 import React, { useState } from 'react';
 import InputField from './inputField';
 import Button from './button';
+import { useUser } from '../../class4/A01663909/UserContext';
+
+// Updated Page type to include all pages
+type Page = 'home' | 'login' | 'blank' | 'navigation' | 'form' | 'expense' | 'dashboard';
 
 // Add props interface to receive setCurrentPage function
 interface LoginProps {
-  setCurrentPage?: React.Dispatch<React.SetStateAction<'home' | 'login' | 'blank' | 'navigation' | 'form'>>;
+  setCurrentPage?: React.Dispatch<React.SetStateAction<Page>>;
 }
 
 const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const { login } = useUser();
 
   const handleSubmit = () => {
     console.log('Username:', username);
     console.log('Password:', password);
     
-    // Simple validation with hardcoded credentials
-    if (username === 'user' && password === 'password') {
-      // Navigate to the form page on successful login
+    // Simple validation - accept any user with password "password"
+    if (password === 'password') {
+      // Determine role based on username (just for demo)
+      let role = 'employee';
+      
+      // Check username for role keywords
+      if (username.includes('manager')) {
+        role = 'manager';
+      } else if (username.includes('admin')) {
+        role = 'admin';
+      }
+
+      console.log(`Logging in with role: ${role}`);
+
+      // Use the login function from context
+      login(role as 'employee' | 'manager' | 'admin', { username });
+
+      // Navigate to the dashboard page on successful login
       if (setCurrentPage) {
-        setCurrentPage('form');
+        setCurrentPage('dashboard');
       } else {
         // If setCurrentPage is not provided, just log success
         console.log('Login successful, but navigation not available');
@@ -56,13 +76,13 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
       
       <InputField
         type="text"
-        placeholder="Username"
+        placeholder="Username (include 'manager' or 'admin' for those roles)"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
       <InputField
         type="password"
-        placeholder="Password"
+        placeholder="Password (always use 'password')"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />

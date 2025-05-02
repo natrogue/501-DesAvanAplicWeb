@@ -1,8 +1,8 @@
 import React from 'react';
 import Button from './class2/A01663909/button';
 
-// Definimos las páginas a las que podemos navegar - add 'form' type
-type Page = 'home' | 'login' | 'blank' | 'navigation' | 'form';
+// Updated Page type to include all pages
+type Page = 'home' | 'login' | 'blank' | 'navigation' | 'form' | 'expense' | 'dashboard';
 
 interface NavigationProps {
   setCurrentPage: (page: Page) => void;
@@ -26,7 +26,10 @@ const Navigation: React.FC<NavigationProps> = ({ setCurrentPage }) => {
       
       <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
         <Button label="Ir a Login" onClick={() => setCurrentPage('login')} />
-        <Button label="Ir a Formulario" onClick={() => setCurrentPage('form')} />
+        <Button label="Ir a Travel Request Form" onClick={() => setCurrentPage('form')} />
+        <Button label="Ir a Expense Form" onClick={() => setCurrentPage('expense')} />
+        <Button label="Ir a Dashboard" onClick={() => setCurrentPage('dashboard')} />
+        
         <div style={{ marginTop: '20px' }}>
           <Button label="Volver al Inicio" onClick={() => setCurrentPage('home')} />
         </div>

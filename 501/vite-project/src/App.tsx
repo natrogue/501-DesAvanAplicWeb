@@ -1,20 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Button from './class2/A01663909/button.tsx'
-import Login from './class2/A01663909/login'
-import Navigation from './Navigation'
-import TravelRequestForm from './class3/A01663909/form'
+import { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
+import Button from './class2/A01663909/button.tsx';
+import Login from './class2/A01663909/login';
+import Navigation from './Navigation';
+import TravelRequestForm from './class3/A01663909/form';
+import ExpenseForm from './class4/A01663909/ExpenseForm.tsx';
+import Dashboard from './class4/A01663909/Dashboard.tsx';
+import { UserProvider } from './class4/A01663909/UserContext';
 
-// Updated Page type to include the form page
-type Page = 'home' | 'login' | 'blank' | 'navigation' | 'form';
+// Updated Page type to include all pages
+type Page = 'home' | 'login' | 'blank' | 'navigation' | 'form' | 'expense' | 'dashboard';
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  const [currentPage, setCurrentPage] = useState<Page>('home')
-
+  const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState<Page>('home');
 
   const renderPage = () => {
     switch (currentPage) {
@@ -24,6 +25,10 @@ function App() {
         return <Login setCurrentPage={setCurrentPage} />;
       case 'form':
         return <TravelRequestForm />;
+      case 'expense':
+        return <ExpenseForm />;
+      case 'dashboard':
+        return <Dashboard />;
       default:
         return (
           <>
@@ -56,15 +61,17 @@ function App() {
   };
 
   return (
-    <>
-      {renderPage()}
-      {currentPage !== 'home' && currentPage !== 'navigation' && (
-        <div style={{ textAlign: 'center', marginTop: '20px' }}>
-          <Button label="Volver a Navegación" onClick={() => setCurrentPage('navigation')} />
-        </div>
-      )}
-    </>
-  )
+    <UserProvider>
+      <>
+        {renderPage()}
+        {currentPage !== 'home' && currentPage !== 'navigation' && (
+          <div style={{ textAlign: 'center', marginTop: '20px' }}>
+            <Button label="Volver a Navegación" onClick={() => setCurrentPage('navigation')} />
+          </div>
+        )}
+      </>
+    </UserProvider>
+  );
 }
 
-export default App
+export default App;
