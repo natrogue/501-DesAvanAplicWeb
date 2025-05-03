@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "basic-form-test.js", "jest.config.js"]
+  "include": ["src", "TravelRequestTest.js09/basic-form-test.js", "jest.config.js", "TravelRequestTest.js"]
 }

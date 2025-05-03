@@ -53,7 +53,7 @@ function App() {
               Click on the Vite and React logos to learn more
             </p>
             <div style={{ textAlign: 'center', margin: '20px 0' }}>
-              <Button label="Natalia Rodriguez" onClick={() => setCurrentPage('navigation')} />
+              <Button label="Natalia Rodríguez, Diego Ortega, Diego Valencia, Enrique Martínez" onClick={() => setCurrentPage('navigation')} />
             </div>
           </>
         );
