@@ -1,5 +1,5 @@
 export default {
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   transform: {},
   testMatch: ['**/src/class8/A01663909/**/*Test.js']
 };
